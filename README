@@ -1,4 +1,4 @@
-Zen Cart addon_modules - Zen Cart�̃��W���[�����񂽂�
+﻿Zen Cart addon_modules - Zen Cartのモジュールかんたん化
 
 Last Update: 2009-09-17 Ver. 1.0.0
 
@@ -10,45 +10,45 @@ Licensed under the GNU Public License V2.0:
 git clone URL:
   git://github.com/zencart-sugu/zencart-addon_modules.git
 
-����m�F�ς݂�Zen-Cart�̃o�[�W����:
+動作確認済みのZen-Cartのバージョン:
   * zen-cart-v1.3.0.2-l10n-jp-5
     http://zen-cart.jp/62.html#j9ccac15
 
 
 -----------------------------
-   �C���X�g�[�����@
+   インストール方法
 -----------------------------
 
-* �܂��́A���Ȃ���Zen-Cart�̊����o�b�N�A�b�v���܂��B
+* まずは、あなたのZen-Cartの環境をバックアップします。
 
-* addon_modules���_�E�����[�h���āAadmin �� includes ��Zen-Cart�̊��փR�s�[���܂��B
+* addon_modulesをダウンロードして、admin と includes をZen-Cartの環境へコピーします。
 
-* �Ǘ���ʂփ��O�C�����āA�u�ǉ��ݒ�E�c�[���v�́u�ǉ����W���[���̊Ǘ��v���N���b�N���܂��B
+* 管理画面へログインして、「追加設定・ツール」の「追加モジュールの管理」をクリックします。
 
-* �u�R�A���W���[���v���N���b�N���āA�u���W���[���C���X�g�[���v�{�^�����N���b�N���܂��B
+* 「コアモジュール」をクリックして、「モジュールインストール」ボタンをクリックします。
 
-* �ȏ�ŁAaddon_modules �̃C���X�g�[���͊����ł��B
+* 以上で、addon_modules のインストールは完了です。
 
 
-�����ɂ���ׂ����Ƃ�?
+→次にするべきことは?
 
-* �e���v���[�g�̐ݒ������
-* ���W���[�����C���X�g�[������
-* �Ǘ���ʂ���u���b�N�̐ݒ������
-
------------------------------
-   �e���v���[�g�̐ݒ���@
------------------------------
-(TBD�F�����ł��ւ̃����N)
-
+* テンプレートの設定をする
+* モジュールをインストールする
+* 管理画面からブロックの設定をする
 
 -----------------------------
-   ���W���[���̃C���X�g�[��
+   テンプレートの設定方法
 -----------------------------
-(TBD�F�����ł��ւ̃����N)
+(TBD：すぐできへのリンク)
 
 
 -----------------------------
-   �Ǘ���ʂ���̎g����
+   モジュールのインストール
 -----------------------------
-(TBD�F�����ł��ւ̃����N)
+(TBD：すぐできへのリンク)
+
+
+-----------------------------
+   管理画面からの使い方
+-----------------------------
+(TBD：すぐできへのリンク)
