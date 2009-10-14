@@ -1,6 +1,6 @@
 ﻿Zen Cart addon_modules - Zen Cartのモジュールかんたん化
 
-Last Update: 2009-09-17 Ver. 1.0.0
+Last Update: 2009-10-14 Ver. 1.0.1
 
 Copyright: (c) 2009 Liquid System Technology, Inc.
 
@@ -44,12 +44,16 @@ git clone URL:
 
 追加   includes/templates/MyTemplate/template_layout.php
 追加   includes/templates/MyTemplate/common/tpl_block.php
+追加   includes/templates/MyTemplate/common/tpl_box.php
+マージ includes/templates/MyTemplate/common/html_header.php
+マージ includes/templates/MyTemplate/common/tpl_footer.php
+マージ includes/templates/MyTemplate/common/tpl_header.php
 マージ includes/templates/MyTemplate/common/tpl_main_page.php
 
 注意１：「MyTemplate」の部分は各自のテンプレート名に変更します。
 
-注意２：tpl_main_page.php をカスタマイズしていない場合はコピー、既にカスタマイズしている場合は差分をマージしてください。
-        zen-cart-v1.3.0.2-l10n-jp-5 の tpl_main_page.php がベースとなっています。
+注意２：マージする各ファイルをカスタマイズしていない場合はコピー、既にカスタマイズしている場合は差分をマージしてください。
+        zen-cart-v1.3.0.2-l10n-jp-5 の includes/templates/templates_default/common/* がベースとなっています。
 
 * これにより、管理画面の「追加設定・ツール」の「ブロックの設定」でモジュールの一覧が表示されるようになります。
 

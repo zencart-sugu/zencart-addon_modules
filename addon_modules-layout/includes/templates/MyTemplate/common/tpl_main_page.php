@@ -78,14 +78,8 @@ if (COLUMN_LEFT_STATUS == 0 or (CUSTOMERS_APPROVAL == '1' and $_SESSION['custome
 }
 if (!isset($flag_disable_left) || !$flag_disable_left) {
 ?>
+  <td id="navColumnOne" class="columnLeft" style="width: <?php echo COLUMN_WIDTH_LEFT; ?>">
 
- <td id="navColumnOne" class="columnLeft" style="width: <?php echo COLUMN_WIDTH_LEFT; ?>">
-<?php
- /**
-  * prepares and displays left column sideboxes
-  *
-  */
-?>
 <?php
   // displays addon_modules layout blocks
   if ($sidebar_left) {
@@ -96,6 +90,7 @@ if (!isset($flag_disable_left) || !$flag_disable_left) {
 <?php
   }
 ?>
+    </td>
 <?php
 }
 ?>
@@ -117,11 +112,33 @@ if (!isset($flag_disable_left) || !$flag_disable_left) {
 ?>
 
 <?php
+  // displays addon_modules layout blocks
+  if ($main_top) {
+?>
+<div id="mainTop">
+<?php echo $main_top; ?>
+</div><!-- /#mainTop -->
+<?php
+  }
+?>
+
+<?php
  /**
   * prepares and displays center column
   *
   */
  require($body_code); ?>
+
+<?php
+  // displays addon_modules layout blocks
+  if ($main_bottom) {
+?>
+<div id="mainBottom">
+<?php echo $main_bottom; ?>
+</div><!-- /#mainBottom -->
+<?php
+  }
+?>
 
 <?php
   if (SHOW_BANNERS_GROUP_SET4 != '' && $banner = zen_banner_exists('dynamic', SHOW_BANNERS_GROUP_SET4)) {
@@ -140,14 +157,18 @@ if (COLUMN_RIGHT_STATUS == 0 or (CUSTOMERS_APPROVAL == '1' and $_SESSION['custom
 }
 if (!isset($flag_disable_right) || !$flag_disable_right) {
 ?>
-<td id="navColumnTwo" class="columnRight" style="width: <?php echo COLUMN_WIDTH_RIGHT; ?>">
+  <td id="navColumnTwo" class="columnRight" style="width: <?php echo COLUMN_WIDTH_RIGHT; ?>">
 <?php
- /**
-  * prepares and displays right column sideboxes
-  *
-  */
+  // displays addon_modules layout blocks
+  if ($sidebar_right) {
 ?>
-<div id="navColumnTwoWrapper" style="width: <?php echo BOX_WIDTH_RIGHT; ?>"><?php require(DIR_WS_MODULES . zen_get_module_directory('column_right.php')); ?></div></td>
+<div id="sidebarRight">
+<?php echo $sidebar_right; ?>
+</div><!-- /#sidebarRight -->
+<?php
+  }
+?>
+    </td>
 <?php
 }
 ?>
@@ -181,9 +202,4 @@ if (!isset($flag_disable_right) || !$flag_disable_right) {
   }
 ?>
 <!--eof- banner #6 display -->
-<!--bof- google analytics -->
-<?php
-require($template->get_template_dir('.php',DIR_WS_TEMPLATE, $current_page_base,'google_analytics') . '/google_analytics.php');
-?>
-<!--oef- google analytics -->
 </body>
