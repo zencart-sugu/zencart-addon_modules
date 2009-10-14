@@ -40,6 +40,12 @@ git clone URL:
    テンプレートの設定方法
 -----------------------------
 
+* addon_modulesディレクトリのコピーで includes/templates/addon_modules/ というaddon_modulesのテンプレートセットがインストールされています。
+これを利用する場合は、管理画面の「追加設定・ツール」の「テンプレートの設定」から[編集]をクリックして、
+テンプレート名を「Add on Modules Template」に変更して[更新]をクリックすれば、テンプレートの設定は完了です。
+
+もし、既に自分のテンプレートセットを持っていて、「Add on Modules Template」を利用できない場合は下記の対応をしてください。
+
 * addon_modules-layoutの内容をコピーします。
 
 追加   includes/templates/MyTemplate/template_layout.php
