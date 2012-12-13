@@ -31,8 +31,8 @@
       case 'save':
         while (list($key, $value) = each($_POST['configuration'])) {
           $db->Execute("update " . TABLE_CONFIGURATION . "
-                       set configuration_value = '" . $value . "'
-                       where configuration_key = '" . $key . "'");
+                       set configuration_value = '" . zen_db_input($value) . "'
+                       where configuration_key = '" . zen_db_input($key) . "'");
         }
         $configuration_query = 'select configuration_key as cfgkey, configuration_value as cfgvalue
                                 from ' . TABLE_CONFIGURATION;
@@ -43,7 +43,7 @@
         if ($module->status != 'true' && $module->_dependModules()) {
           $messageStack->add_session(sprintf(WARNING_DEPEND_MODULE_INACTIVE, $module->code), 'warning');
         }
-        zen_redirect(zen_href_link(FILENAME_ADDON_MODULES, ($_GET['module'] != '' ? 'module=' . $_GET['module'] : ''), 'NONSSL'));
+        zen_redirect(zen_href_link(FILENAME_ADDON_MODULES, 'action=save_enabled_to_cache&' . ($_GET['module'] != '' ? 'module=' . $_GET['module'] : ''), 'NONSSL'));
         break;
       case 'install':
       /**
@@ -83,6 +83,10 @@
         } else {
           zen_redirect(zen_href_link(FILENAME_ADDON_MODULES, 'module=' . $class, 'NONSSL'));
         }
+        break;
+      case 'save_enabled_to_cache':
+        zen_addOnModules_save_enabled_modules_to_cache();
+        zen_redirect(zen_href_link(FILENAME_ADDON_MODULES, ($_GET['module'] != '' ? 'module=' . $_GET['module'] : '') . ($_GET['edit'] == 1 ? '&action=edit' : ''), 'NONSSL'));
         break;
     }
   }
@@ -126,6 +130,19 @@
             <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
             <td class="pageHeading" align="right"><?php echo zen_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
+          <?php
+          if (isset($GLOBALS['addon_modules'])) {
+          ?>
+          <tr>
+            <td>
+              <?php echo zen_draw_form("download", FILENAME_ADDON_MODULES_ADMIN, "module=addon_modules/download", "post"); ?>
+                <input type="submit" value="<?php echo BUTTON_TEXT_MODULE_DOWNLOAD; ?>">
+              </form>
+            </td>
+          </tr>
+          <?php
+          }
+          ?>
           <tr>
             <td class="smallText" colspan="2">
             <?php echo
@@ -228,6 +245,12 @@
     }
   }
   ksort($installed_modules);
+  $installed_modules_keys = array_keys($installed_modules);
+  sort($installed_modules_keys);
+  $installed_addon_modules = array();
+  foreach ($installed_modules_keys as $installed_modules_key) {
+    array_push($installed_addon_modules, $installed_modules[$installed_modules_key]);
+  } 
   $check = $db->Execute("select configuration_value
                          from " . TABLE_CONFIGURATION . "
                          where configuration_key = '" . $module_key . "'");
@@ -237,6 +260,7 @@
       $db->Execute("update " . TABLE_CONFIGURATION . "
                     set configuration_value = '" . implode(';', $installed_modules) . "', last_modified = now()
                     where configuration_key = '" . $module_key . "'");
+      zen_addOnModules_save_enabled_modules_to_cache();
     }
   } else {
     $db->Execute("insert into " . TABLE_CONFIGURATION . "
@@ -244,6 +268,7 @@
                    configuration_description, configuration_group_id, sort_order, date_added)
                  values ('Installed Modules', '" . $module_key . "', '" . implode(';', $installed_modules) . "',
                          'This is automatically updated. No need to edit.', '6', '0', now())");
+    zen_addOnModules_save_enabled_modules_to_cache();
   }
 ?>
               <tr>
@@ -260,7 +285,7 @@
       while (list($key, $value) = each($mInfo->keys)) {
         $keys .= '<b>' . $value['title'] . '</b><br>' . $value['description'] . '<br>';
         if ($value['set_function']) {
-          eval('$keys .= ' . $value['set_function'] . "'" . $value['value'] . "', '" . $key . "');");
+          eval('$keys .= ' . $value['set_function'] . "'" . str_replace('\'', '\\\'', $value['value']) . "', '" . $key . "');");
         } else {
           $keys .= zen_draw_input_field('configuration[' . $key . ']', $value['value']);
         }

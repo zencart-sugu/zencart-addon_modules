@@ -4,8 +4,6 @@
  * see  {@link  http://www.zen-cart.com/wiki/index.php/Developers_API_Tutorials#InitSystem wikitutorials} for more details.
  *
  * @package initSystem
- * @copyright Copyright 2008 Liquid System Technology, Inc.
- * @author Koji Sasaki
  * @copyright Portions Copyright 2003-2005 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
@@ -25,4 +23,17 @@ if (!defined('IS_ADMIN_FLAG')) {
 
   $autoLoadConfig[1000][] = array('autoType'=>'init_script',
                                   'loadFile'=>'init_addOnModules.php');
+
+  $enabled_addon_modules_text_file = DIR_FS_SQL_CACHE . "/enabled_addon_modules.txt";
+  if (is_readable($enabled_addon_modules_text_file)) {
+    $enabled_modules_str = file_get_contents($enabled_addon_modules_text_file);
+    $enabled_modules = preg_split("/;/", $enabled_modules_str);
+    foreach ($enabled_modules as $enabled_module) {
+      $auto_load_config = DIR_FS_CATALOG_ADDON_MODULES . $enabled_module . "/auto_loaders/config.php";
+      if (is_readable($auto_load_config)) {
+	require_once($auto_load_config);
+      }
+    }
+  }
+  
 ?>
