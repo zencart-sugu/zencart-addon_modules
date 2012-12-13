@@ -3,8 +3,6 @@
  * addon_modules Core Module
  *
  * @package addon_modules
- * @copyright Copyright (C) 2009 Liquid System Technology, Inc.
- * @author Koji Sasaki
  * @copyright Portions Copyright 2003-2005 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
@@ -113,7 +111,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     function addon_modules() {
       $this->__construct();
       if (IS_ADMIN_FLAG == 0) {
-//        require_once($this->dir . 'phpQuery/phpQuery.php');
+        require_once($this->dir . 'phpQuery/phpQuery.php');
       }
     }
 
@@ -140,9 +138,11 @@ if (!defined('IS_ADMIN_FLAG')) {
     }
 
     function notify_header_addonmodules_print_layout_main() {
-/*
       global $main;
       global $addonmodules_print_layout_main_content;
+
+      $addonmodules_print_layout_main_content = str_replace(CHARSET, "UTF-8", $addonmodules_print_layout_main_content);
+      $addonmodules_print_layout_main_content = mb_convert_encoding($addonmodules_print_layout_main_content, "UTF-8", mb_internal_encoding());
 
       // DOMDocument‚ªjavascript‚ð‚¤‚Ü‚­ˆ—‚Å‚«‚È‚¢‚Ì‚Å
       // “K“–‚É’u‚«Š·‚¦‚Ä‚Ý‚é
@@ -150,8 +150,9 @@ if (!defined('IS_ADMIN_FLAG')) {
       foreach($match[1] as $k => $v) {
         $addonmodules_print_layout_main_content = str_replace($v, self::replace_key($k), $addonmodules_print_layout_main_content);
       }
+      $addonmodules_print_layout_main_content = str_replace("&nbsp;", "%NBSP%", $addonmodules_print_layout_main_content);
 
-      $doc = phpQuery::newDocumentHTML($addonmodules_print_layout_main_content, CHARSET);
+      $doc = phpQuery::newDocumentHTML($addonmodules_print_layout_main_content, "UTF-8");
       phpQuery::selectDocument($doc);
 
       if (is_array($main)) {
@@ -180,8 +181,10 @@ if (!defined('IS_ADMIN_FLAG')) {
       foreach($match[1] as $k => $v) {
         $out = str_replace(self::replace_key($k), $v, $out);
       }
+      $out = str_replace("%NBSP%", "&nbsp;", $out);
 
+      $out = str_replace("UTF-8", CHARSET, $out);
+      $out = mb_convert_encoding($out, mb_internal_encoding(), "UTF-8");
       $addonmodules_print_layout_main_content = $out;
-*/
     }
   }

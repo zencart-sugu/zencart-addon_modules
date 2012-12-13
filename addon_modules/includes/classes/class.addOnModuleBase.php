@@ -3,8 +3,6 @@
  * addOnModule Base Class
  *
  * @package addon_module_base
- * @copyright Copyright (C) 2009 Liquid System Technology, Inc.
- * @author Koji Sasaki
  * @copyright Portions Copyright 2003-2005 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
@@ -135,7 +133,7 @@ if (!defined('IS_ADMIN_FLAG')) {
               $create_fields = array_merge($create_fields, $create_indexes);
               $query = "CREATE TABLE IF NOT EXISTS `$table` (" . "\n";
               $query .= implode(",\n", $create_fields) . "\n";
-              $query .= ") TYPE=MyISAM;";
+              $query .= ") ENGINE=MyISAM;";
               $db->Execute($query);
               $messageStack->add_session(sprintf(SUCCESS_CREATE_TABLE, $table), 'success');
             }

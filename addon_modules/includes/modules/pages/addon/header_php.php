@@ -8,7 +8,7 @@
  * @copyright Portions Copyright 2003-2006 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: header_php.php 195 2012-02-02 06:45:30Z kohata $
+ * @version $Id: header_php.php $
  */
 
 // This should be first line of the script:
@@ -21,7 +21,7 @@ $page_method = $perse_page_module['method'];
 $enable_module_page = false;
 
 $enabled_modules = zen_addOnModules_get_enabled_modules();
-if (in_array($page_class, $enabled_modules) && is_callable($page_class, $page_method)) {
+if (in_array($page_class, $enabled_modules) && method_exists($page_class, $page_method)) {
   $enable_module_page = true;
 }
 

@@ -19,29 +19,11 @@
 // | to obtain it through the world-wide-web, please send a note to       |
 // | license@zen-cart.com so we can mail you a copy immediately.          |
 // +----------------------------------------------------------------------+
-//  $Id: admin_blocks.php $
+//  $Id: admin_block.php $
 //
 if (!defined('IS_ADMIN_FLAG')) {
   die('Illegal Access');
 }
-
-  if ($_REQUEST['action'] == "change_template") {
-    $_SESSION['block_name'] = $_REQUEST['ln'];
-  }
-
-  // セッションの初期設定
-  $dir = @dir(DIR_FS_CATALOG_TEMPLATES);
-  if (!$dir) die('DIR_FS_CATALOG_TEMPLATES NOT SET');
-  while ($file = $dir->read()) {
-    if (is_dir(DIR_FS_CATALOG_TEMPLATES . $file) && strtoupper($file) != 'CVS' && $file != 'template_default') {
-      if (file_exists(DIR_FS_CATALOG_TEMPLATES . $file . '/template_info.php')) {
-        if (!isset($_SESSION['block_name'])) {
-          $_SESSION['block_name'] = $file;
-        }
-      }
-    }
-  }
-  $template_dir = $_SESSION['block_name'];
 
   // get an array of template info
   $location_options = array();
@@ -65,11 +47,6 @@ if (!defined('IS_ADMIN_FLAG')) {
         }
       }
     }
-  }
-
-  $template_array = array();
-  while (list ($key, $value) = each($template_info) ) {
-    $template_array[] = array('id' => $key, 'text' => $value['name']);
   }
 
 // Check all exisiting boxes are in the main /sideboxes
@@ -566,12 +543,7 @@ if ($warning_new_block) {
 }
 ?>
           <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE . ' ' . $template_dir; ?>
-              <?php echo zen_draw_form('block_layouts', FILENAME_ADDON_MODULES_ADMIN, 'module=addon_modules/blocks&page=' . $_GET['page'] . '&bID=' . $_GET['bID'] . '&action=change_template'); ?>
-              <?php echo zen_draw_pull_down_menu('ln', $template_array, $_SESSION['block_name']); ?>
-              <input type="submit" value="切り替え">
-              </form>
-            </td>
+            <td class="pageHeading"><?php echo HEADING_TITLE . ' ' . $template_dir; ?></td>
             <td class="pageHeading" align="right"><?php echo zen_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
         </table></td>
@@ -584,7 +556,7 @@ if (count($layout_locations) > 0) {
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td class="main" align="left">
-              <strong>Boxes Path: </strong><?php echo DIR_FS_CATALOG_MODULES . $template_dir. '/sideboxes/ ... ' . '<br />'; ?>
+              <strong>Boxes Path: </strong><?php echo DIR_FS_CATALOG_MODULES . 'sideboxes/ ... ' . '<br />'; ?>
               <strong>Modules Path: </strong><?php echo DIR_FS_CATALOG_ADDON_MODULES . ' ... ' . '<br />&nbsp;'; ?>
           </td>
           </tr>
@@ -659,7 +631,7 @@ if (count($layout_locations) > 0) {
 <?php
    } else {
       if (in_array($block_layouts->fields['module'], $enabled_addon_modules)
-        && is_callable($block_layouts->fields['module'], $block_layouts->fields['block'])) {
+        && method_exists($block_layouts->fields['module'], $block_layouts->fields['block'])) {
         $exists_block = true;
         $td_class = 'dataTableContent';
       } else {
@@ -873,7 +845,7 @@ if (count($layout_locations) > 0) {
           $contents[] = array('text' => TEXT_INFO_BLOCK_SORT_ORDER . ' ' . $bInfo->sort_order);
           $contents[] = array('text' => ($bInfo->visible == '1' ? TEXT_VISIBLE_PAGES : TEXT_INVISIBLE_PAGES));
           $contents[] = array('text' => $pages_outputs_string);
-          if (!(in_array($bInfo->module, $enabled_addon_modules) && is_callable($bInfo->module, $bInfo->block))) {
+          if (!(in_array($bInfo->module, $enabled_addon_modules) && method_exists($bInfo->module, $bInfo->block))) {
             $contents[] = array('align' => 'left', 'text' => '<br /><strong>' . TEXT_INFO_DELETE_MISSING_BLOCK . '<br />' . $template_dir . '</strong>');
             $contents[] = array('align' => 'left', 'text' => TEXT_INFO_DELETE_MISSING_BLOCK_NOTE . '<strong>' . $bInfo->module . '#' . $bInfo->block . '</strong>');
             $contents[] = array('align' => 'left', 'text' => '<a href="' . zen_href_link(FILENAME_ADDON_MODULES_ADMIN, 'module=addon_modules/blocks&page=' . $_GET['page'] . '&bID=' . $bInfo->id . '&action=delete' . '&block=' . $bInfo->block) . '">' . zen_image_button('button_delete.gif', IMAGE_DELETE) . '</a>');
